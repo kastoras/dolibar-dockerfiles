@@ -1,0 +1,34 @@
+version: "3.8"
+
+services: 
+  server:
+    build: 
+      context: .
+      dockerfile: dockerfiles/nginx.dockerfile
+    ports: 
+      - '8001:80'
+    volumes: 
+      - ./htdocs:/var/www/dolibarr/htdocs
+      - dolidevdocuments:/var/www/dolibarr/documents
+    depends_on: 
+      - php
+      - mariadb
+  php:
+    build: 
+      context: .
+      dockerfile: dockerfiles/php.freshinstall.dockerfile 
+    volumes:
+      - ./htdocs:/var/www/dolibarr/htdocs:delegated
+      - dolidevdocuments:/var/www/dolibarr/documents:delegated
+  mariadb:
+    image: mariadb:10.11.1-rc-jammy
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306          
+    volumes:
+      - dbdata:/var/lib/mysql         
+     
+volumes:
+  dbdata:
+  dolidevdocuments:
