@@ -16,7 +16,7 @@ services:
   php:
     build: 
       context: .
-      dockerfile: dockerfiles/php.freshinstall.dockerfile 
+      dockerfile: dockerfiles/php8.2.freshinstall.dockerfile 
     volumes:
       - ./htdocs:/var/www/dolibarr/htdocs:delegated
       - dolidevdocuments:/var/www/dolibarr/documents:delegated
